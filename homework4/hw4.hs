@@ -30,5 +30,27 @@ data Tree a = Leaf
     deriving (Show, Eq)
 
 
-foldTree :: [a] -> Tree a
-foldTree =
+-- foldTree :: [a] -> Tree a
+-- foldTree = foldr Leaf
+
+
+-- Exercise 3
+
+xor :: [Bool] -> Bool
+xor = foldr (/=) False
+
+
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr ((:) . f) []
+
+-- dont think this is right, find example that breaks
+myFoldl :: (a -> b -> a) -> a -> [b] -> a
+myFoldl f base xs = foldr (flip f) base xs
+
+
+-- Exercise 4
+-- sieveSundram :: Integer -> [Integer]
+-- sieveSundram =
+
+cartProd :: [a] -> [b] -> [(a, b)]
+cartProd xs ys = [(x, y) | x <- xs, y <- ys]
