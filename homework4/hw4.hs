@@ -30,8 +30,15 @@ data Tree a = Leaf
     deriving (Show, Eq)
 
 
--- foldTree :: [a] -> Tree a
--- foldTree = foldr Leaf
+foldTree :: [a] -> Tree a
+foldTree = foldr insert Leaf
+    where
+        insert x Leaf           = Node 0 Leaf x Leaf
+        insert x (Node h l a r) = if height l > height r
+                                  then Node h l a (insert x r)
+                                  else Node (succ h) (insert x l) a r
+        height Leaf             = -1
+        height (Node h _ _ _)   = h
 
 
 -- Exercise 3
