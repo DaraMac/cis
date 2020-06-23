@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
 
+import Data.List
+
 -- Exercise 1
 
 fun1 :: [Integer] -> Integer
@@ -31,15 +33,7 @@ data Tree a = Leaf
 
 
 foldTree :: [a] -> Tree a
-foldTree = foldr insert Leaf
-    where
-        insert x Leaf           = Node 0 Leaf x Leaf
-        insert x (Node h l a r) = if height l > height r
-                                  then Node h l a (insert x r)
-                                  else Node (succ h) (insert x l) a r
-        height Leaf             = -1
-        height (Node h _ _ _)   = h
-
+foldTree = 
 
 -- Exercise 3
 
@@ -56,8 +50,12 @@ myFoldl f base xs = foldr (flip f) base xs
 
 
 -- Exercise 4
--- sieveSundram :: Integer -> [Integer]
--- sieveSundram =
+
+sieveSundram' :: Integer -> [Integer]
+sieveSundram' n = map ((+1).(*2)) $ [1..n] \\ [i+j+2*i*j | i <- [1..n], j <- [1..n]]
+
+--sieveSundram :: Integer -> [Integer]
+--sieveSundram =
 
 cartProd :: [a] -> [b] -> [(a, b)]
 cartProd xs ys = [(x, y) | x <- xs, y <- ys]
