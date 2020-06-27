@@ -33,19 +33,8 @@ data Tree a = Leaf
 
 
 foldTree :: [a] -> Tree a
-foldTree = foldr (balance . attach) Leaf
+foldTree = foldr insert Leaf
     where
-        height Leaf             = -1
-        height (Node h _ _ _)   = h
-        attach x Leaf           = Node 0 Leaf x Leaf
-        attach x (Node h l a r) = if height l < height r
-                                  then Node h (attach x l) a r
-                                  else Node h l a (attach x r)
-
-        balance Leaf             = Leaf
-        balance n@(Node h l a r) = Node (calc n) (balance l) a (balance r)
-        calc Leaf               = -1
-        calc (Node _ l _ r)     = 1 + maximum [calc l, calc r]
 
 -- Exercise 3
 
