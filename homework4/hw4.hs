@@ -34,7 +34,16 @@ data Tree a = Leaf
 
 foldTree :: [a] -> Tree a
 foldTree = foldr insert Leaf
-    where
+    where ht Leaf               = -1
+          ht (Node h _ _ _)     = h
+          height Leaf           = -1
+          height (Node _ l _ r) = 1 + max (height l) (height r)
+          insert x Leaf           = Node 0 Leaf x Leaf
+          insert x (Node h l a r) = if ht l < ht r
+                                    then Node h (insert x l) a r
+                                    else let m = insert x r
+                                             k = max h (1 + height m)
+                                         in Node k l a m
 
 -- Exercise 3
 
