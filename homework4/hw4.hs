@@ -64,8 +64,8 @@ myFoldl f base xs = foldr (flip f) base xs
 sieveSundram' :: Integer -> [Integer]
 sieveSundram' n = map ((+1).(*2)) $ [1..n] \\ [i+j+2*i*j | i <- [1..n], j <- [1..n]]
 
---sieveSundram :: Integer -> [Integer]
---sieveSundram =
+sieveSundram :: Integer -> [Integer]
+sieveSundram = map ((+1).(*2)) . (\ns -> filter (\n -> not $ elem n [i+j+2*i*j | (i,j) <- cartProd ns ns]) ns) . (\n -> [1..n])
 
 cartProd :: [a] -> [b] -> [(a, b)]
 cartProd xs ys = [(x, y) | x <- xs, y <- ys]
