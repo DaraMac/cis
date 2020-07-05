@@ -30,3 +30,34 @@ instance Expr ExprT where
     lit = Lit
     add = Add
     mul = Mul
+
+
+reify :: ExprT -> ExprT
+reify = id
+
+
+-- Exercise 4
+
+instance Expr Integer where
+    lit = id
+    add = (+)
+    mul = (*)
+
+instance Expr Bool where
+    lit = (>0)
+    add = (||)
+    mul = (&&)
+
+
+newtype MinMax = MinMax Integer deriving (Eq, Show)
+
+instance Expr MinMax where
+    lit = MinMax
+    add (MinMax m) (MinMax n) = MinMax (max m n)
+    mul (MinMax m) (MinMax n) = MinMax (min m n)
+
+
+newtype Mod7 = Mod7 Integer deriving (Show, Eq)
+
+instance Expr Mod7 where
+    lit = Mod7 `mod`
