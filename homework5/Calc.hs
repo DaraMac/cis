@@ -1,3 +1,4 @@
+{-# LANGUAGE TypeSynonymInstances #-}
 {-# OPTIONS_GHC -Wall #-}
 module Calc where
 import ExprT
@@ -60,4 +61,21 @@ instance Expr MinMax where
 newtype Mod7 = Mod7 Integer deriving (Show, Eq)
 
 instance Expr Mod7 where
-    lit = Mod7 `mod`
+    lit = Mod7 . (`mod` 7)
+    add (Mod7 m) (Mod7 n) = Mod7 $ (m+n) `mod` 7
+    mul (Mod7 m) (Mod7 n) = Mod7 $ (m*n) `mod` 7
+
+testExp :: Expr a => Maybe a
+testExp = parseExp lit add mul "(3 * -4) + 5"
+
+-- commenting out so I dont have to see compiler warnings
+-- testInteger     = testExp :: Maybe Integer
+-- testBool        = testExp :: Maybe Bool
+-- testMM          = testExp :: Maybe MinMax
+-- testSat         = testExp :: Maybe Mod7
+
+
+-- Exercise 5
+
+instance Expr Program where
+    lit
