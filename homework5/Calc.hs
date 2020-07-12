@@ -3,7 +3,8 @@
 module Calc where
 import ExprT
 import Parser
-
+import StackVM()
+-- import qualified StackVM as S
 
 -- Exercise 1
 
@@ -77,5 +78,5 @@ testExp = parseExp lit add mul "(3 * -4) + 5"
 
 -- Exercise 5
 
-instance Expr Program where
-    lit
+-- instance Expr Program where
+--    lit = (:[]) . PushI
