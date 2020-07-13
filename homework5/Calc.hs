@@ -1,10 +1,10 @@
-{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall #-}
 module Calc where
 import ExprT
 import Parser
-import StackVM()
--- import qualified StackVM as S
+import StackVM (StackExp(PushI), Program)
+import qualified StackVM as Stk (StackExp(Add, Mul))
 
 -- Exercise 1
 
@@ -78,5 +78,10 @@ testExp = parseExp lit add mul "(3 * -4) + 5"
 
 -- Exercise 5
 
--- instance Expr Program where
---    lit = (:[]) . PushI
+instance Expr Program where
+    lit = (:[]) . PushI
+    add a b = a ++ b ++ [Stk.Add]
+    mul a b = a ++ b ++ [Stk.Mul]
+
+compile :: String -> Maybe Program
+compile = parseExp lit add mul
