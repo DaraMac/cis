@@ -1,4 +1,4 @@
--# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall #-}
 
 module Fibonacci where
 
@@ -16,4 +16,7 @@ fibs1 = map fib [0..]
 -- Exercise 2
 
 fibs2 :: [Integer]
-fibs2 =
+fibs2 = 0 : 1 : zipWith (+) fibs2 (tail fibs2)
+
+
+-- Exercise 3
