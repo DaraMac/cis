@@ -1,4 +1,5 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall -fno-warn-missing-methods -fno-warn-name-shadowing #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Fibonacci where
 
@@ -56,3 +57,18 @@ ruler = foldr interleaveStreams undefined $ map streamRepeat [0..]
 
 -- Exercise 6
 
+x :: Stream Integer
+x = Cons 0 (Cons 1 $ streamRepeat 0)
+
+instance Num (Stream Integer) where
+    fromInteger n = Cons n $ streamRepeat 0
+    negate = streamMap negate
+    (+) (Cons a as) (Cons b bs) = Cons (a+b) (as+bs)
+    (*) (Cons a as) bb@(Cons b bs) = Cons (a*b) $ (streamMap (*a) bs) + (as*bb)
+
+
+instance Fractional (Stream Integer) where
+    (/) aa@(Cons a as) bb@(Cons b bs) = Cons (div a b) $ streamMap (`div` b) $ (aa/bb)*(as - bs)
+
+
+f x = x / (1 - (x + x^2))
