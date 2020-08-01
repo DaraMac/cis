@@ -70,5 +70,20 @@ instance Num (Stream Integer) where
 instance Fractional (Stream Integer) where
     (/) aa@(Cons a as) bb@(Cons b bs) = Cons (div a b) $ streamMap (`div` b) $ (aa/bb)*(as - bs)
 
+-- 0, 1, 1, 2, 3, 5, 8, 13
+-- f x = x / (1 - (x + x^2))
 
-f x = x / (1 - (x + x^2))
+
+-- Exercise 7
+
+data Matrix = M {a::Integer, b::Integer, c::Integer, d::Integer}
+    deriving Show
+
+instance Num Matrix where
+    (*) (M a b c d) (M e f g h) = M (a*e + b*g) (a*f + b*h) (c*e + d*g) (c*f + d*h)
+
+f1 :: Matrix
+f1 = M 1 1 1 0
+
+fib4 :: Integer -> Integer
+fib4 = (^) f1
