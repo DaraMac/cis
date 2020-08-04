@@ -86,4 +86,6 @@ f1 :: Matrix
 f1 = M 1 1 1 0
 
 fib4 :: Integer -> Integer
-fib4 = (^) f1
+fib4 n = if n == 0
+         then 0
+         else b (f1^n)
