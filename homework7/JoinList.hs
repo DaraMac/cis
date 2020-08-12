@@ -24,15 +24,20 @@ tag (Append m _ _) = m
 
 -- Exercise 2
 
+-- 1
+
 indexJ :: (Sized b, Monoid b) =>
           Int -> JoinList b a -> Maybe a
 
 indexJ _ Empty          = Nothing
-indexJ i _ | i < 0      = Nothing
+indexJ i _     | i < 0  = Nothing
 indexJ 0 (Single _ a)   = Just a
+indexJ _ (Single _ _)   = Nothing
 indexJ i (Append s l r)
     | Size i >= size s  = Nothing 
-    -- | otherwise         = Just i
+    | i >= leftSize     = indexJ (i - leftSize) r
+    | otherwise         = indexJ i l
+    where leftSize = getSize $ size $ tag l
 
 
 ------------------------------------------------------
@@ -47,3 +52,6 @@ jlToList Empty            = []
 jlToList (Single _ a)     = [a]
 jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
 ------------------------------------------------------
+
+
+-- 2
