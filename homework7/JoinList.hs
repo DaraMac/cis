@@ -40,7 +40,25 @@ indexJ i (Append s l r)
     where leftSize = getSize $ size $ tag l
 
 
-------------------------------------------------------
+-- 2
+
+dropJ :: (Sized b, Monoid b) =>
+         Int -> JoinList b a -> JoinList b a
+
+dropJ _ Empty          = Empty
+dropJ i js | i <= 0    = js
+dropJ _ (Single _ _)   = Empty
+dropJ i (Append b l r)
+    | Size i >= size b = Empty
+    | i >= leftSize    = dropJ (i - leftSize) r
+    | otherwise        = Append dropJ i l -- TODO
+    where leftSize = getSize $ size $ tag l
+
+
+
+
+
+-----------------------------------------------------
 (!!?) :: [a] -> Int -> Maybe a
 []     !!? _         = Nothing
 _      !!? i | i < 0 = Nothing
@@ -53,5 +71,3 @@ jlToList (Single _ a)     = [a]
 jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
 ------------------------------------------------------
 
-
--- 2
