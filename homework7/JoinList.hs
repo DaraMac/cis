@@ -51,7 +51,7 @@ dropJ _ (Single _ _)   = Empty
 dropJ i (Append b l r)
     | Size i >= size b = Empty
     | i >= leftSize    = dropJ (i - leftSize) r
-    | otherwise        = Append dropJ i l -- TODO
+    | otherwise        = (dropJ i l) +++ r
     where leftSize = getSize $ size $ tag l
 
 
@@ -69,5 +69,8 @@ jlToList :: JoinList m a -> [a]
 jlToList Empty            = []
 jlToList (Single _ a)     = [a]
 jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
-------------------------------------------------------
 
+testRight :: JoinList Size Char
+testRight = foldr (+++) Empty $ map (Single (Size 1)) "abcde"
+-- TODO make one with foldl
+------------------------------------------------------
