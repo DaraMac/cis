@@ -101,5 +101,5 @@ midTest :: JoinList Size Char
 midTest = Append (Size 5) (Append (Size 2) (Single (Size 1) 'a') (Single (Size 1) 'b'))
                           (Append (Size 3)
                               (Append (Size 2) (Single (Size 1) 'c') (Single (Size 1 ) 'd'))
-                              (Single (Size 1) 'e')) 
+                              (Single (Size 1) 'e'))
 ------------------------------------------------------
