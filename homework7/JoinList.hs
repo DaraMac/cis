@@ -55,6 +55,27 @@ dropJ i (Append b l r)
     where leftSize = getSize $ size $ tag l
 
 
+-- 3
+takeJ :: (Sized b, Monoid b) =>
+         Int -> JoinList b a -> JoinList b a
+
+-- TODO double check all cases make sense as I copied them from above
+takeJ _ Empty           = Empty
+takeJ i _ | i <= 0      = Empty
+takeJ _ j@(Single _ _)  = j
+takeJ i js@(Append b l r)
+    | Size i >= size b  = js
+    | i > leftSize      = l +++ takeJ (i - leftSize) r
+    | otherwise         = takeJ i l
+    where leftSize = getSize $ size $ tag l
+
+
+
+
+
+
+
+
 
 
 
@@ -70,7 +91,15 @@ jlToList Empty            = []
 jlToList (Single _ a)     = [a]
 jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
 
-testRight :: JoinList Size Char
-testRight = foldr (+++) Empty $ map (Single (Size 1)) "abcde"
--- TODO make one with foldl
+rightTest :: JoinList Size Char
+rightTest = foldr (+++) Empty $ map (Single (Size 1)) "abcde"
+
+leftTest :: JoinList Size Char
+leftTest = foldl (+++) Empty $ map (Single (Size 1)) "abcde"
+
+midTest :: JoinList Size Char
+midTest = Append (Size 5) (Append (Size 2) (Single (Size 1) 'a') (Single (Size 1) 'b'))
+                          (Append (Size 3)
+                              (Append (Size 2) (Single (Size 1) 'c') (Single (Size 1 ) 'd'))
+                              (Single (Size 1) 'e')) 
 ------------------------------------------------------
